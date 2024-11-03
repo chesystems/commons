@@ -22,3 +22,4 @@ dependencyResolutionManagement {
 rootProject.name = "Commons"
 include(":app")
 include(":uibits")
+include(":session")
