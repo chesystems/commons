@@ -1,4 +1,4 @@
-package com.chesystemsdev.session
+package com.chesystemsdev.entities
 
 import org.junit.Test
 

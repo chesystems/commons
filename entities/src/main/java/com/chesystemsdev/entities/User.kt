@@ -1,4 +1,6 @@
-package com.chesystemsdev.session
+package com.chesystemsdev.entities
+
+import java.util.UUID
 
 /** Represents a user profile with basic information */
 data class UserProfile(
@@ -13,7 +15,7 @@ data class UserProfile(
             metadata: Map<String, Any> = emptyMap()
         ): UserProfile {
             return UserProfile(
-                id = java.util.UUID.randomUUID().toString(),
+                id = UUID.randomUUID().toString(),
                 username = username,
                 metadata = metadata
             )

@@ -1,4 +1,4 @@
-package com.chesystemsdev.session
+package com.chesystemsdev.entities
 
 /** Business transaction interface for requests, orders, etc. */
 interface Transaction {

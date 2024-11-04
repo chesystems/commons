@@ -1,4 +1,6 @@
-package com.chesystemsdev.session
+package com.chesystemsdev.entities
+
+import java.util.UUID
 
 /** Represents a condition that must be met for a session to be valid */
 sealed class Condition {
@@ -32,7 +34,7 @@ object SessionHelper {
         metadata: Map<String, Any> = emptyMap()
     ): Session {
         return Session(
-            id = java.util.UUID.randomUUID().toString(),
+            id = UUID.randomUUID().toString(),
             startTime = System.currentTimeMillis(),
             conditions = conditions,
             metadata = metadata

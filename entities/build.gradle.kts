@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.chesystemsdev.session"
+    namespace = "com.chesystemsdev.entities"
     compileSdk = 35
 
     defaultConfig {
