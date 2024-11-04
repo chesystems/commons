@@ -7,29 +7,30 @@ data class User(
     val id: String,
     val username: String,
     val metadata: Map<String, Any> = emptyMap()
-) {
-    companion object {
-        /** Creates a new user profile */
-        fun create(
-            username: String,
-            metadata: Map<String, Any> = emptyMap()
-        ): User {
-            return User(
-                id = UUID.randomUUID().toString(),
-                username = username,
-                metadata = metadata
-            )
-        }
+)
+
+object UserHelper {
+    /** Creates a new user profile */
+    fun create(
+        username: String,
+        metadata: Map<String, Any> = emptyMap()
+    ): User {
+        return User(
+            id = UUID.randomUUID().toString(),
+            username = username,
+            metadata = metadata
+        )
     }
 
     /** Creates a session for this user */
     fun createSession(
+        user: User,
         durationMs: Long = 3600000, // 1 hour default
         additionalMetadata: Map<String, Any> = emptyMap()
     ): Session {
         val sessionMetadata = mapOf(
-            "userId" to id,
-            "username" to username
+            "userId" to user.id,
+            "username" to user.username
         ) + additionalMetadata
         
         return SessionHelper.createTimeLimit(
@@ -38,22 +39,3 @@ data class User(
         )
     }
 }
-
-
-/** Represents a collection of user references by their IDs */
-data class UserGroup(
-    val userRefs: List<String> = emptyList()
-) {
-    companion object {
-        /** Creates a new UserRefs from a list of user IDs */
-        fun from(vararg refs: String): UserGroup {
-            return UserGroup(refs.toList())
-        }
-
-        /** Creates a new UserRefs from a collection of UserProfiles */
-        fun fromProfiles(profiles: Collection<User>): UserGroup {
-            return UserGroup(profiles.map { it.id })
-        }
-    }
-}
-
