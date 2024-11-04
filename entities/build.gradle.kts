@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "com.chesystemsdev.session"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         minSdk = 27
@@ -30,12 +30,6 @@ android {
     }
     kotlinOptions {
         jvmTarget = "1.8"
-    }
-    buildFeatures {
-        compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
     }
     packaging {
         resources {
