@@ -19,14 +19,23 @@ sealed class Condition {
 
 /** Represents an active session with conditions and metadata */
 data class Session(
-    val id: String,
+    override val id: String,
     val startTime: Long,
     val conditions: List<Condition>,
-    val metadata: Map<String, Any> = emptyMap() // Changed to Any to support more flexible metadata
-) {
+    val metadata: Map<String, Any> = emptyMap(),
+    override val sourceRef: String = metadata["userId"]?.toString() ?: "",
+    override val status: Transaction.Status = determineStatus()
+) : Transaction {
     /** Checks if all session conditions are currently met */
     fun isValid(): Boolean {
         return conditions.all { it.isMet() }
+    }
+
+    private companion object {
+        private fun determineStatus(): Transaction.Status {
+            // Could be expanded based on your needs
+            return Transaction.Status.COMPLETED
+        }
     }
 }
 
