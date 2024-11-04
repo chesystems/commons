@@ -3,7 +3,7 @@ package com.chesystemsdev.entities
 import java.util.UUID
 
 /** Represents a user profile with basic information */
-data class UserProfile(
+data class User(
     val id: String,
     val username: String,
     val metadata: Map<String, Any> = emptyMap()
@@ -13,8 +13,8 @@ data class UserProfile(
         fun create(
             username: String,
             metadata: Map<String, Any> = emptyMap()
-        ): UserProfile {
-            return UserProfile(
+        ): User {
+            return User(
                 id = UUID.randomUUID().toString(),
                 username = username,
                 metadata = metadata
@@ -41,18 +41,18 @@ data class UserProfile(
 
 
 /** Represents a collection of user references by their IDs */
-data class UserRefs(
+data class UserGroup(
     val userRefs: List<String> = emptyList()
 ) {
     companion object {
         /** Creates a new UserRefs from a list of user IDs */
-        fun from(vararg refs: String): UserRefs {
-            return UserRefs(refs.toList())
+        fun from(vararg refs: String): UserGroup {
+            return UserGroup(refs.toList())
         }
 
         /** Creates a new UserRefs from a collection of UserProfiles */
-        fun fromProfiles(profiles: Collection<UserProfile>): UserRefs {
-            return UserRefs(profiles.map { it.id })
+        fun fromProfiles(profiles: Collection<User>): UserGroup {
+            return UserGroup(profiles.map { it.id })
         }
     }
 }

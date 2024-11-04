@@ -1,6 +1,7 @@
 package com.chesystemsdev.entities
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import java.util.Timer
 import java.util.TimerTask
 import java.util.UUID
@@ -60,10 +61,19 @@ object SessionHelper {
 
 // -------------------------------------------------------------------------
 
+/** Factory for Session instances */
+class SessionFacto(
+    private val session: Session
+) : ViewModelProvider.NewInstanceFactory() {
+    /** Creates new SessionViewMo instance */
+    override fun <T : ViewModel> create(modelClass: Class<T>): T =
+        SessionMo(session) as T
+}
 
-
-/** ViewModel for observing session conditions */
-class SessionViewModel(private val session: Session): ViewModel() {
+/** ViewModel for observing Session's Conditions */
+class SessionMo(
+    private val session: Session
+): ViewModel() {
     private var isActive = false
     private var observers = mutableListOf<(Boolean) -> Unit>()
     private var checkTask: Timer? = null
