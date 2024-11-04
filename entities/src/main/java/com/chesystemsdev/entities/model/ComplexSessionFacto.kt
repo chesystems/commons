@@ -6,42 +6,39 @@ import com.chesystemsdev.entities.Session
 import java.util.Timer
 import java.util.TimerTask
 
-/** Factory for Session instances */
-class SessionComplexFacto(
+private typealias ComplexSessionObserver = (sessionId: String, isValid: Boolean) -> Unit
+
+/** Factory for multiple Session monitoring */
+class ComplexSessionFacto(
     private val session: Session
 ) : ViewModelProvider.NewInstanceFactory() {
-    /** Creates new SessionViewMo instance */
     override fun <T : ViewModel> create(modelClass: Class<T>): T =
-        SessionMo(session) as T
+        ComplexSessionMo(session) as T
 }
 
 /** ViewModel for observing multiple Sessions' Conditions */
-class SessionComplexMo(
-    private val initialSession: Session
-): ViewModel() {
+class ComplexSessionMo(
+    initialSession: Session
+) : BaseSessionMo() {
     private val sessions = mutableMapOf<String, Session>()
     private val sessionStates = mutableMapOf<String, Boolean>()
     private var observers = mutableListOf<ComplexSessionObserver>()
-    private var checkTask: Timer? = null
 
     init {
         addSession(initialSession)
     }
 
-    /** Add a new session to monitor */
     fun addSession(session: Session) {
-        sessions[session.id] = session  // Assuming Session has an id property
+        sessions[session.id] = session
         sessionStates[session.id] = true
     }
 
-    /** Remove a session from monitoring */
     fun removeSession(sessionId: String) {
         sessions.remove(sessionId)
         sessionStates.remove(sessionId)
     }
 
-    /** Start monitoring all session conditions */
-    fun startObserving(checkIntervalMs: Long = 1000) {
+    override fun startObserving(checkIntervalMs: Long) {
         if (checkTask != null) return
 
         checkTask = Timer().apply {
@@ -67,21 +64,11 @@ class SessionComplexMo(
         }
     }
 
-    /** Stop monitoring session conditions */
-    fun stopObserving() {
-        checkTask?.cancel()
-        checkTask = null
-    }
-
-    /** Add observer for session validity changes */
     fun addObserver(observer: ComplexSessionObserver) {
         observers.add(observer)
     }
 
-    /** Remove observer */
     fun removeObserver(observer: ComplexSessionObserver) {
         observers.remove(observer)
     }
 }
-
-private typealias ComplexSessionObserver = (sessionId: String, isValid: Boolean) -> Unit

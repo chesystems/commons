@@ -6,25 +6,24 @@ import com.chesystemsdev.entities.Session
 import java.util.Timer
 import java.util.TimerTask
 
-/** Factory for Session instances */
+private typealias SimpleSessionObserver = (isValid: Boolean) -> Unit
+
+/** Factory for single Session monitoring */
 class SessionFacto(
     private val session: Session
 ) : ViewModelProvider.NewInstanceFactory() {
-    /** Creates new SessionViewMo instance */
     override fun <T : ViewModel> create(modelClass: Class<T>): T =
         SessionMo(session) as T
 }
 
-/** ViewModel for observing Session's Conditions */
+/** ViewModel for observing single Session's Conditions */
 class SessionMo(
     private val session: Session
-): ViewModel() {
+) : BaseSessionMo() {
     private var isActive = false
-    private var observers = mutableListOf<SessionObserver>()
-    private var checkTask: Timer? = null
+    private var observers = mutableListOf<SimpleSessionObserver>()
 
-    /** Start monitoring session conditions */
-    fun startObserving(checkIntervalMs: Long = 1000) {
+    override fun startObserving(checkIntervalMs: Long) {
         if (isActive) return
         isActive = true
 
@@ -42,22 +41,16 @@ class SessionMo(
         }
     }
 
-    /** Stop monitoring session conditions */
-    fun stopObserving() {
+    override fun stopObserving() {
         isActive = false
-        checkTask?.cancel()
-        checkTask = null
+        super.stopObserving()
     }
 
-    /** Add observer for session validity changes */
-    fun addObserver(observer: SessionObserver) {
+    fun addObserver(observer: SimpleSessionObserver) {
         observers.add(observer)
     }
 
-    /** Remove observer */
-    fun removeObserver(observer: SessionObserver) {
+    fun removeObserver(observer: SimpleSessionObserver) {
         observers.remove(observer)
     }
 }
-
-private typealias SessionObserver = (isValid: Boolean) -> Unit
