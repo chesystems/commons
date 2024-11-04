@@ -1,7 +1,8 @@
-package com.chesystemsdev.entities
+package com.chesystemsdev.entities.model
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.chesystemsdev.entities.Session
 import java.util.Timer
 import java.util.TimerTask
 
@@ -19,7 +20,7 @@ class SessionMo(
     private val session: Session
 ): ViewModel() {
     private var isActive = false
-    private var observers = mutableListOf<(Boolean) -> Unit>()
+    private var observers = mutableListOf<SessionObserver>()
     private var checkTask: Timer? = null
 
     /** Start monitoring session conditions */
@@ -49,12 +50,14 @@ class SessionMo(
     }
 
     /** Add observer for session validity changes */
-    fun addObserver(observer: (Boolean) -> Unit) {
+    fun addObserver(observer: SessionObserver) {
         observers.add(observer)
     }
 
     /** Remove observer */
-    fun removeObserver(observer: (Boolean) -> Unit) {
+    fun removeObserver(observer: SessionObserver) {
         observers.remove(observer)
     }
 }
+
+private typealias SessionObserver = (isValid: Boolean) -> Unit

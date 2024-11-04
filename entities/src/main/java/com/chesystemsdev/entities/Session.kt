@@ -8,20 +8,11 @@ data class Session(
     val startTime: Long,
     val conditions: List<Condition>,
     val metadata: Map<String, Any> = emptyMap(),
-    override val sourceRef: String = metadata["userId"]?.toString() ?: "",
-    override val status: Transaction.Status = determineStatus()
+    override val sourceRef: String = "",
+    override val status: Transaction.Status = Transaction.Status.PENDING
 ) : Transaction {
     /** Checks if all session conditions are currently met */
-    fun isValid(): Boolean {
-        return conditions.all { it.isMet() }
-    }
-
-    private companion object {
-        private fun determineStatus(): Transaction.Status {
-            // Could be expanded based on your needs
-            return Transaction.Status.COMPLETED
-        }
-    }
+    fun isValid() = conditions.all { it.isMet() }
 }
 
 /** Helper functions for creating sessions */
