@@ -6,23 +6,23 @@ import com.chesystemsdev.entities.Session
 import java.util.Timer
 import java.util.TimerTask
 
-private typealias ComplexSessionObserver = (sessionId: String, isValid: Boolean) -> Unit
+private typealias MultiSessionObserver = (sessionId: String, isValid: Boolean) -> Unit
 
 /** Factory for multiple Session monitoring */
-class ComplexSessionFacto(
+class MultiSessionFacto(
     private val session: Session
 ) : ViewModelProvider.NewInstanceFactory() {
     override fun <T : ViewModel> create(modelClass: Class<T>): T =
-        ComplexSessionMo(session) as T
+        MultiSessionMo(session) as T
 }
 
 /** ViewModel for observing multiple Sessions' Conditions */
-class ComplexSessionMo(
+class MultiSessionMo(
     initialSession: Session
 ) : BaseSessionMo() {
     private val sessions = mutableMapOf<String, Session>()
     private val sessionStates = mutableMapOf<String, Boolean>()
-    private var observers = mutableListOf<ComplexSessionObserver>()
+    private var observers = mutableListOf<MultiSessionObserver>()
 
     init {
         addSession(initialSession)
@@ -64,11 +64,11 @@ class ComplexSessionMo(
         }
     }
 
-    fun addObserver(observer: ComplexSessionObserver) {
+    fun addObserver(observer: MultiSessionObserver) {
         observers.add(observer)
     }
 
-    fun removeObserver(observer: ComplexSessionObserver) {
+    fun removeObserver(observer: MultiSessionObserver) {
         observers.remove(observer)
     }
 }

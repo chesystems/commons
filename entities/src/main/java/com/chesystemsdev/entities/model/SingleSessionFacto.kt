@@ -6,22 +6,22 @@ import com.chesystemsdev.entities.Session
 import java.util.Timer
 import java.util.TimerTask
 
-private typealias SimpleSessionObserver = (isValid: Boolean) -> Unit
+private typealias SingleSessionObserver = (isValid: Boolean) -> Unit
 
 /** Factory for single Session monitoring */
-class SessionFacto(
+class SingleSessionFacto(
     private val session: Session
 ) : ViewModelProvider.NewInstanceFactory() {
     override fun <T : ViewModel> create(modelClass: Class<T>): T =
-        SessionMo(session) as T
+        SingleSessionMo(session) as T
 }
 
 /** ViewModel for observing single Session's Conditions */
-class SessionMo(
+class SingleSessionMo(
     private val session: Session
 ) : BaseSessionMo() {
     private var isActive = false
-    private var observers = mutableListOf<SimpleSessionObserver>()
+    private var observers = mutableListOf<SingleSessionObserver>()
 
     override fun startObserving(checkIntervalMs: Long) {
         if (isActive) return
@@ -46,11 +46,11 @@ class SessionMo(
         super.stopObserving()
     }
 
-    fun addObserver(observer: SimpleSessionObserver) {
+    fun addObserver(observer: SingleSessionObserver) {
         observers.add(observer)
     }
 
-    fun removeObserver(observer: SimpleSessionObserver) {
+    fun removeObserver(observer: SingleSessionObserver) {
         observers.remove(observer)
     }
 }
