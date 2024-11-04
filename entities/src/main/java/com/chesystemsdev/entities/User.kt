@@ -40,3 +40,20 @@ data class UserProfile(
 }
 
 
+/** Represents a collection of user references by their IDs */
+data class UserRefs(
+    val userRefs: List<String> = emptyList()
+) {
+    companion object {
+        /** Creates a new UserRefs from a list of user IDs */
+        fun from(vararg refs: String): UserRefs {
+            return UserRefs(refs.toList())
+        }
+
+        /** Creates a new UserRefs from a collection of UserProfiles */
+        fun fromProfiles(profiles: Collection<UserProfile>): UserRefs {
+            return UserRefs(profiles.map { it.id })
+        }
+    }
+}
+
