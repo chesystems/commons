@@ -3,39 +3,27 @@ package com.chesystems.entities
 import java.util.UUID
 
 /** Represents a user profile with basic information */
-data class User(
-    val id: String,
-    val username: String,
-    val metadata: Map<String, Any> = emptyMap()
-)
-
-object UserHelper {
-    /** Creates a new user profile */
-    fun create(
-        username: String,
-        metadata: Map<String, Any> = emptyMap()
-    ): User {
-        return User(
+interface User<ID, M> {
+    val id: ID
+    val username: String
+    val metadata: M
+    
+    companion object {
+        /** Creates a simple user with String ID and Map metadata */
+        fun create(
+            username: String,
+            metadata: Map<String, Any> = emptyMap()
+        ): User<String, Map<String, Any>> = SimpleUser(
             id = UUID.randomUUID().toString(),
             username = username,
             metadata = metadata
         )
     }
-
-    /** Creates a session for this user */
-    fun createSession(
-        user: User,
-        durationMs: Long = 3600000, // 1 hour default
-        additionalMetadata: Map<String, Any> = emptyMap()
-    ): Session {
-        val sessionMetadata = mapOf(
-            "userId" to user.id,
-            "username" to user.username
-        ) + additionalMetadata
-        
-        return SessionHelper.createTimeLimit(
-            durationMs = durationMs,
-            metadata = sessionMetadata
-        )
-    }
 }
+
+/** Basic implementation of User */
+private data class SimpleUser<ID, M>(
+    override val id: ID,
+    override val username: String,
+    override val metadata: M
+) : User<ID, M>
