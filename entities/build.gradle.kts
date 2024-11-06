@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.chesystemsdev.entities"
+    namespace = "com.chesystems.entities"
     compileSdk = 35
 
     defaultConfig {
@@ -51,7 +51,7 @@ dependencies {
 publishing {
     publications {
         register<MavenPublication>("release") {
-            groupId = "com.github.chesystemsdev"
+            groupId = "com.github.chesystems"
             artifactId = "entities"
             version = "1.0"
 

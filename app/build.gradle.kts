@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.chesystemsdev.commons"
+    namespace = "com.chesystems.commons"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.chesystemsdev.commons"
+        applicationId = "com.chesystems.commons"
         minSdk = 27
         targetSdk = 35
         versionCode = 1

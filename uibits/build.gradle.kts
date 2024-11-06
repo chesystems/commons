@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.chesystemsdev.uibits"
+    namespace = "com.chesystems.uibits"
     compileSdk = 35
 
     defaultConfig {
@@ -70,7 +70,7 @@ dependencies {
 publishing {
     publications {
         register<MavenPublication>("release") {
-            groupId = "com.github.chesystemsdev"
+            groupId = "com.github.chesystems"
             artifactId = "uibits"
             version = "1.0"
 
