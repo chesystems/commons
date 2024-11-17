@@ -6,12 +6,13 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.key
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 
 @Composable
 fun <T> EZAnimatedColumn(
     items: List<T>,
-    contentPadding: PaddingValues,
-    onEmpty: @Composable () -> Unit,
+    contentPadding: PaddingValues = PaddingValues(0.dp),
+    onEmpty: @Composable () -> Unit = {},
     itemKey: (T) -> Any,
     itemContent: @Composable (T, Modifier) -> Unit,
     finalContent: @Composable (() -> Unit)? = null
