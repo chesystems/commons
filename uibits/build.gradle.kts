@@ -65,6 +65,11 @@ dependencies {
     implementation(libs.icons.extended)
     //Compose navigation
     implementation(libs.compose.navigation)
+
+    //QR gen
+    implementation(libs.xzing.core)
+    //QR scan
+    implementation(libs.xzing.android.embedded)
 }
 
 publishing {

@@ -14,10 +14,18 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.ClipboardManager
+import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.text.AnnotatedString
 import androidx.navigation.NavHostController
 import kotlinx.coroutines.CoroutineScope
 import java.util.UUID
+
+@Composable
+fun String.ToClipboard() {
+    LocalClipboardManager.current.setText(AnnotatedString(this))
+}
 
 /** Gets random elements from a collection */
 fun <T> Collection<T>.preList(
