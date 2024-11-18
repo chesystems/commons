@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.TextUnit
 /** Base list item with customizable text and optional leading/trailing content */
 @Composable
 private fun EZListItem(
+    modifier: Modifier = Modifier,
     size: TextUnit? = null,
     leading: @Composable (() -> Unit)? = null,
     title: String,
@@ -27,6 +28,7 @@ private fun EZListItem(
     trailing: @Composable (() -> Unit)? = null
 ) {
     ListItem(
+        modifier = modifier,
         leadingContent = leading,
         headlineContent = { Text(text = title, textDecoration = decoration, fontSize = size ?: TextUnit.Unspecified) },
         supportingContent = subtitle?.let { 
@@ -40,6 +42,7 @@ private fun EZListItem(
 /** List item with icon badge, alert counter and navigation actions */
 @Composable
 fun EZItemNavAlert(
+    modifier: Modifier = Modifier,
     size: TextUnit? = null,
     icon: ImageVector? = null,
     alertAmount: Int,
@@ -50,6 +53,7 @@ fun EZItemNavAlert(
     actions: List<Pair<ImageVector, () -> Unit>>? = null
 ) {
     EZListItem(
+        modifier = modifier,
         size = size,
         title = title,
         subtitle = subtitle,
@@ -71,6 +75,7 @@ fun EZItemNavAlert(
 /** List item with alert counter and action buttons */
 @Composable
 fun EZItemAlert(
+    modifier: Modifier = Modifier,
     size: TextUnit? = null,
     icon: ImageVector? = null,
     title: String,
@@ -81,6 +86,7 @@ fun EZItemAlert(
     actions: List<Pair<Int, Pair<ImageVector, () -> Unit>>>? = null
 ) {
     EZListItem(
+        modifier = modifier,
         size = size,
         title = title,
         subtitle = subtitle,
@@ -106,6 +112,7 @@ fun EZItemAlert(
 /** Simple list item with optional icon and action buttons */
 @Composable
 fun EZItem(
+    modifier: Modifier = Modifier,
     size: TextUnit? = null,
     icon: ImageVector? = null,
     title: String,
@@ -115,6 +122,7 @@ fun EZItem(
     actions: List<Pair<ImageVector, () -> Unit>>? = null
 ) {
     EZListItem(
+        modifier = modifier,
         size = size,
         title = title,
         subtitle = subtitle,
@@ -130,6 +138,7 @@ fun EZItem(
 /** Checkbox list item with optional strike-through text and action buttons */
 @Composable
 fun EZCheckItem(
+    modifier: Modifier = Modifier,
     title: String,
     subtitle: String? = null,
     check: Boolean,
@@ -141,6 +150,7 @@ fun EZCheckItem(
     val decoration = if (decorate && check) TextDecoration.LineThrough else TextDecoration.None
     val content = @Composable {
         EZListItem(
+            modifier = modifier,
             title = title,
             subtitle = subtitle,
             decoration = decoration,
