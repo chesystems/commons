@@ -1,7 +1,11 @@
 package com.chesystems.uibits
 
+import android.content.ContentValues
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Color
+import android.os.Environment
+import android.provider.MediaStore
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
@@ -31,6 +35,9 @@ import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanOptions
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.io.File
+import java.io.FileOutputStream
 
 @Composable
 fun QR(
@@ -122,5 +129,94 @@ private fun createBitmapFromMatrix(
         }
 
         setPixels(pixels, 0, matrixWidth, 0, 0, matrixWidth, matrixHeight)
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+fun genQR(
+    content: String,
+    sizePx: Int = 512,
+    paddingPx: Int = 0
+): Bitmap {
+    val qrCodeWriter = QRCodeWriter()
+    val encodeHints = mapOf(EncodeHintType.MARGIN to paddingPx)
+
+    // Generate the QR code matrix
+    val bitmapMatrix: BitMatrix = qrCodeWriter.encode(content, BarcodeFormat.QR_CODE, sizePx, sizePx, encodeHints)
+    val bitmap = Bitmap.createBitmap(sizePx, sizePx, Bitmap.Config.ARGB_8888)
+
+    // Create the bitmap from the matrix
+    for (x in 0 until sizePx) {
+        for (y in 0 until sizePx) {
+            bitmap.setPixel(x, y, if (bitmapMatrix[x, y]) Color.BLACK else Color.WHITE)
+        }
+    }
+
+    return bitmap
+}
+
+/** OLD */
+fun saveBitmapToLocalStorage(bitmap: Bitmap, fileName: String) {
+    val file = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), fileName)
+    FileOutputStream(file).use { out ->
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, out) // Save as PNG
+    }
+}
+
+/** NEW - USES MEDIA STORE */
+suspend fun saveQR(
+    bitmap: Bitmap,
+    context: Context,
+    filename: String
+) {
+    withContext(Dispatchers.IO) {
+        val resolver = context.contentResolver
+        val imageCollection = MediaStore.Images.Media.getContentUri(
+            MediaStore.VOLUME_EXTERNAL_PRIMARY
+        )
+        val timeInMillis = System.currentTimeMillis()
+        val imageContentValues = ContentValues().apply {
+            put(MediaStore.Images.Media.DISPLAY_NAME, "${filename}_${timeInMillis}_qr.jpg")
+            put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES)
+            put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
+            put(MediaStore.Images.Media.DATE_TAKEN, timeInMillis)
+            put(MediaStore.Images.Media.IS_PENDING, 1)
+        }
+
+        val imageMediaStoreUri = resolver.insert(imageCollection, imageContentValues)
+        imageMediaStoreUri?.let { uri ->
+            try {
+                resolver.openOutputStream(uri)?.let { outputStream ->
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+                }
+
+                imageContentValues.clear()
+                imageContentValues.put(MediaStore.MediaColumns.IS_PENDING, 0)
+
+                resolver.update(uri, imageContentValues, null, null)
+            } catch(e: Exception) {
+                e.printStackTrace()
+                resolver.delete(uri, null, null)
+            }
+        }
     }
 }
