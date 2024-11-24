@@ -10,6 +10,7 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun <T> EZAnimatedColumn(
+    initialContent: @Composable (() -> Unit)? = null,
     items: List<T>,
     contentPadding: PaddingValues = PaddingValues(0.dp),
     onEmpty: @Composable () -> Unit = {},
@@ -21,6 +22,8 @@ fun <T> EZAnimatedColumn(
         LazyColumn(
             contentPadding = contentPadding
         ) {
+            if(initialContent != null)
+                item { initialContent() }
             items(
                 items = items,
                 key = { itemKey(it) }
