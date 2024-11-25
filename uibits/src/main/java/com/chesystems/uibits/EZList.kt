@@ -39,7 +39,7 @@ fun <T> EZAnimatedColumn(
 }
 
 @Composable
-private fun SearchField(
+fun EZSearchFieldOpen(
     search: String,
     setSearch: (String) -> Unit,
     searchOn: Boolean,
