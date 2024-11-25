@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.sp
 /** Stylish top app bar with customizable title, navigation and actions */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TitleBar(
+fun EZTitleTextBar(
     modifier: Modifier = Modifier,
     navigationIcon: @Composable () -> Unit = {},
     title: String,
@@ -26,6 +26,24 @@ fun TitleBar(
     TopAppBar(
         modifier = modifier,
         title = { Text(text = title, fontSize = 18.sp, textDecoration = deco) },
+        actions = actions,
+        navigationIcon = navigationIcon,
+        colors = TopAppBarDefaults.topAppBarColors(containerColor = color)
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun EZTitleBar(
+    modifier: Modifier = Modifier,
+    navigationIcon: @Composable () -> Unit = {},
+    title: @Composable () -> Unit = {},
+    color: Color = MaterialTheme.colorScheme.surface,
+    actions: @Composable (RowScope.() -> Unit) = {}
+) {
+    TopAppBar(
+        modifier = modifier,
+        title = title,
         actions = actions,
         navigationIcon = navigationIcon,
         colors = TopAppBarDefaults.topAppBarColors(containerColor = color)

@@ -3,6 +3,9 @@ package com.chesystems.uibits
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.ExpandLess
+import androidx.compose.material.icons.outlined.ExpandMore
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.key
 import androidx.compose.ui.Modifier
@@ -15,7 +18,7 @@ fun <T> EZAnimatedColumn(
     onEmpty: @Composable () -> Unit = {},
     itemKey: (T) -> Any,
     itemContent: @Composable (T, Modifier) -> Unit,
-    finalContent: @Composable() (() -> Unit)? = null
+    finalContent: @Composable (() -> Unit)? = null
 ) {
     if (items.isNotEmpty()) {
         LazyColumn(
@@ -33,4 +36,27 @@ fun <T> EZAnimatedColumn(
                 item { finalContent() }
         }
     } else onEmpty()
+}
+
+@Composable
+private fun SearchField(
+    search: String,
+    setSearch: (String) -> Unit,
+    searchOn: Boolean,
+    setSearchOn: (Boolean) -> Unit
+) {
+    HorizontalPadding {
+        EZInput(
+            name = search,
+            setName = setSearch,
+            label = "Search...",
+            trailing = {
+                EZIconButton(
+                    if (searchOn) Icons.Outlined.ExpandLess
+                    else Icons.Outlined.ExpandMore
+                ) { setSearchOn(!searchOn) }
+            },
+            readOnly = !searchOn
+        )
+    }
 }

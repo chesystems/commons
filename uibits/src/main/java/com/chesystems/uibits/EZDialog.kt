@@ -106,7 +106,7 @@ fun FullScreenDialog(
     ) {
         Surface(modifier.fillMaxSize()) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                TitleBar(
+                EZTitleTextBar(
                     navigationIcon = {
                         if (navIcon != null && navAction != null) {
                             EZIconButton(navIcon) { navAction() }
