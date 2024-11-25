@@ -75,7 +75,7 @@ fun EZDialog(
                 if (!noButton) {
                     Spacer(Modifier.padding(Spacing.small))
                     Box(Modifier.align(Alignment.End)) {
-                        HorizontalPadding {
+                        Pad(start = true, end = true) {
                             EZTextFab(text = "Accept", enabled = acceptEnabled) {
                                 onAccept()
                                 onDismiss()

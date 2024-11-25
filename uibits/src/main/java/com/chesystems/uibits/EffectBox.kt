@@ -11,7 +11,9 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
+import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -31,35 +33,22 @@ fun Clickable(
     ) { content() }
 }
 
-/** Box with horizontal button padding */
 @Composable
-fun HorizontalPadding(content: @Composable () -> Unit) {
+fun Pad(
+    start: Boolean = false,
+    end: Boolean = false,
+    top: Boolean = false,
+    bottom: Boolean = false,
+    startPad: Dp = ButtonDefaults.ContentPadding.calculateStartPadding(LayoutDirection.Ltr),
+    endPad: Dp = ButtonDefaults.ContentPadding.calculateEndPadding(LayoutDirection.Rtl),
+    topPad: Dp = Spacing.medium,
+    bottomPad: Dp = Spacing.medium,
+    content: @Composable () -> Unit
+) {
     Box(modifier = Modifier.padding(
-        start = ButtonDefaults.ContentPadding.calculateStartPadding(LayoutDirection.Ltr),
-        end = ButtonDefaults.ContentPadding.calculateEndPadding(LayoutDirection.Rtl),
-        top = Spacing.none,
-        bottom = Spacing.none
-    )) { content() }
-}
-
-/** Box with button padding on all sides */
-@Composable
-fun TotalPadding(content: @Composable () -> Unit) {
-    Box(modifier = Modifier.padding(
-        start = ButtonDefaults.ContentPadding.calculateStartPadding(LayoutDirection.Ltr),
-        end = ButtonDefaults.ContentPadding.calculateEndPadding(LayoutDirection.Rtl),
-        top = Spacing.medium,
-        bottom = Spacing.medium
-    )) { content() }
-}
-
-/** Box with horizontal and bottom button padding */
-@Composable
-fun TotalPaddingButUpper(content: @Composable () -> Unit) {
-    Box(modifier = Modifier.padding(
-        start = ButtonDefaults.ContentPadding.calculateStartPadding(LayoutDirection.Ltr),
-        end = ButtonDefaults.ContentPadding.calculateEndPadding(LayoutDirection.Rtl),
-        top = Spacing.none,
-        bottom = Spacing.medium
+        start = if(start) startPad else 0.dp,
+        end = if(end) endPad else 0.dp,
+        top = if(top) topPad else 0.dp,
+        bottom = if(bottom) bottomPad else 0.dp
     )) { content() }
 }

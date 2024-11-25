@@ -17,8 +17,8 @@ fun EZDivider(
     text: String? = null
 ) {
     val color = MaterialTheme.colorScheme.primary
-    
-    HorizontalPadding {
+
+    Pad(start = true, end = true) {
         when {
             vertical -> VerticalDivider(thickness = Spacing.dot, color = color)
             text != null -> Row(verticalAlignment = Alignment.CenterVertically) {
