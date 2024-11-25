@@ -34,7 +34,7 @@ fun Clickable(
 }
 
 @Composable
-fun Pad(
+fun EZPad(
     start: Boolean = false,
     end: Boolean = false,
     top: Boolean = false,
