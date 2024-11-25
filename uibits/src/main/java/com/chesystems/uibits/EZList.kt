@@ -45,18 +45,16 @@ fun EZSearchFieldOpen(
     searchOn: Boolean,
     setSearchOn: (Boolean) -> Unit
 ) {
-    HorizontalPadding {
-        EZInput(
-            name = search,
-            setName = setSearch,
-            label = "Search...",
-            trailing = {
-                EZIconButton(
-                    if (searchOn) Icons.Outlined.ExpandLess
-                    else Icons.Outlined.ExpandMore
-                ) { setSearchOn(!searchOn) }
-            },
-            readOnly = !searchOn
-        )
-    }
+    EZInput(
+        name = search,
+        setName = setSearch,
+        label = "Search...",
+        trailing = {
+            EZIconButton(
+                if (searchOn) Icons.Outlined.ExpandLess
+                else Icons.Outlined.ExpandMore
+            ) { setSearchOn(!searchOn) }
+        },
+        readOnly = !searchOn
+    )
 }
