@@ -2,6 +2,7 @@ package com.chesystems.uibits
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
@@ -66,7 +67,7 @@ fun EZDialog(
     onDismiss: () -> Unit,
     onAccept: () -> Unit = {},
     acceptEnabled: Boolean = true,
-    content: @Composable (() -> Unit)? = null
+    content: @Composable (ColumnScope.() -> Unit)? = null
 ) {
     Dialog(
         onDismissRequest = onDismiss,
@@ -79,8 +80,8 @@ fun EZDialog(
             Column {
                 if (!noTitle)
                     EZItem(title = title, subtitle = subtitle, size = 18.sp)
-                Box(modifier = Modifier.weight(1f)) {
-                    content?.invoke()
+                Column(modifier = Modifier.weight(1f)) {
+                    content?.let { it() }
                 }
                 if (!noButton)
                     Column {
