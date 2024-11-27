@@ -22,6 +22,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
@@ -72,19 +73,22 @@ fun EZDialog(
     ) {
         DialogSurface(modifier) {
             Column {
-                if (!noTitle) EZItem(title = title, subtitle = subtitle, size = 18.sp)
+                if (!noTitle)
+                    EZItem(title = title, subtitle = subtitle, size = 18.sp)
                 content?.invoke()
-                if (!noButton) {
-                    Clickable(onClick = {
-                        if(acceptEnabled)
-                            onAccept()
+                if (!noButton)
+                    Column {
+                        EZDivider()
+                        Clickable(onClick = {
+                            if(acceptEnabled)
+                                onAccept()
                             onDismiss()
-                    }) {
-                        ListItem(
-                            headlineContent = { Text("Accept") }
-                        )
+                        }) {
+                            ListItem(
+                                headlineContent = { Text("Accept", modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.End) }
+                            )
+                        }
                     }
-                }
             }
         }
     }
