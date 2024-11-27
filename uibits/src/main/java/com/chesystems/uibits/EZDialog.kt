@@ -5,10 +5,13 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.ArrowForward
+import androidx.compose.material.icons.automirrored.outlined.Forward
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ListItem
@@ -23,6 +26,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
@@ -75,7 +79,9 @@ fun EZDialog(
             Column {
                 if (!noTitle)
                     EZItem(title = title, subtitle = subtitle, size = 18.sp)
-                content?.invoke()
+                Box(modifier = Modifier.weight(1f)) {
+                    content?.invoke()
+                }
                 if (!noButton)
                     Column {
                         EZDivider()
@@ -85,7 +91,8 @@ fun EZDialog(
                             onDismiss()
                         }) {
                             ListItem(
-                                headlineContent = { Text("Accept", modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.End) }
+                                headlineContent = { Text("Accept", modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.End) },
+                                trailingContent = { EZIcon(icon = Icons.AutoMirrored.Outlined.ArrowForward) }
                             )
                         }
                     }
