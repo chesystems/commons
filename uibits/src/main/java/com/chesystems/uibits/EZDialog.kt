@@ -11,7 +11,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ListItem
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -73,16 +75,15 @@ fun EZDialog(
                 if (!noTitle) EZItem(title = title, subtitle = subtitle, size = 18.sp)
                 content?.invoke()
                 if (!noButton) {
-                    Spacer(Modifier.padding(Spacing.small))
-                    Box(Modifier.align(Alignment.End)) {
-                        EZPad(start = true, end = true) {
-                            EZTextFab(text = "Accept", enabled = acceptEnabled) {
-                                onAccept()
-                                onDismiss()
-                            }
-                        }
+                    Clickable(onClick = {
+                        if(acceptEnabled)
+                            onAccept()
+                            onDismiss()
+                    }) {
+                        ListItem(
+                            headlineContent = { Text("Accept") }
+                        )
                     }
-                    Spacer(Modifier.padding(Spacing.small))
                 }
             }
         }
