@@ -80,8 +80,8 @@ fun colorByModule(odd: Boolean) =
 
 /** Gets alternating colors for list items */
 @Composable
-fun colorByIndex(l: List<Any>, li: Any, swap: Boolean = false) =
-    colorByModule(l.indexOf(li) % 2 != 0 && swap)
+fun colorByIndex(l: List<Any>, li: Any) =
+    colorByModule(l.indexOf(li) % 2 != 0)
 
 /** Runs once at composition start */
 @Composable
