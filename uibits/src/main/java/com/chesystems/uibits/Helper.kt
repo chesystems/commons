@@ -73,13 +73,15 @@ fun NavHostController.navigate(screen: String, popTo: String? = null) {
 @Composable
 fun Modifier.imeInsets() = windowInsetsPadding(WindowInsets.ime)
 
+@Composable
+fun colorByModule(odd: Boolean) =
+    if (odd) MaterialTheme.colorScheme.surface
+    else MaterialTheme.colorScheme.primary.copy(alpha = 0.033f)
+
 /** Gets alternating colors for list items */
 @Composable
-fun colorByIndex(l: List<Any>, li: Any, swap: Boolean = false): Color {
-    val isOdd = l.indexOf(li) % 2 != 0
-    return if (isOdd && !swap) MaterialTheme.colorScheme.surface
-    else MaterialTheme.colorScheme.primary.copy(alpha = 0.033f)
-}
+fun colorByIndex(l: List<Any>, li: Any, swap: Boolean = false) =
+    colorByModule(l.indexOf(li) % 2 != 0 && swap)
 
 /** Runs once at composition start */
 @Composable
