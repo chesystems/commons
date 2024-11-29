@@ -8,6 +8,8 @@ import androidx.compose.material.icons.outlined.ExpandLess
 import androidx.compose.material.icons.outlined.ExpandMore
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.key
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
@@ -38,23 +40,28 @@ fun <T> EZAnimatedColumn(
     } else onEmpty()
 }
 
-@Composable
-fun EZSearchFieldOpen(
+fun <T> filterListBySearch(
+    list: List<T>,
     search: String,
-    setSearch: (String) -> Unit,
-    searchOn: Boolean,
-    setSearchOn: (Boolean) -> Unit
+    idSelector: (T) -> String
+): List<T> {
+    return if (search.isEmpty()) {
+        list
+    } else {
+        list.filter { idSelector(it).contains(search, ignoreCase = true) }
+    }
+}
+
+@Composable
+fun <T> SearchableList(
+    items: List<T>,
+    idSelector: (T) -> String,
+    content: @Composable (List<T>, String, (String) -> Unit) -> Unit
 ) {
-    EZInput(
-        name = search,
-        setName = setSearch,
-        label = "Search...",
-        trailing = {
-            EZIconButton(
-                if (searchOn) Icons.Outlined.ExpandLess
-                else Icons.Outlined.ExpandMore
-            ) { setSearchOn(!searchOn) }
-        },
-        readOnly = !searchOn
-    )
+    val (search, setSearch) = remember { mutableStateOf("") }
+    val filteredItems by lazy {
+        filterListBySearch(items, search, idSelector)
+    }
+
+    content(filteredItems, search, setSearch)
 }
